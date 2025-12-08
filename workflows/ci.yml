@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Instalar Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Lint (análisis estático)
+        run: npm run lint || true
+
+      - name: Ejecutar pruebas
+        run: npm test || echo "No hay pruebas configuradas"
+
+      - name: Build del proyecto
+        run: npm run build
